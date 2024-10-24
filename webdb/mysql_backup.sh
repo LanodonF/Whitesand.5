@@ -64,7 +64,7 @@ SKIPSCHEMES="information_schema performance_schema"
 
  
 # Get all database list first
-DBS="$(/var/lib/mysql -u $MyUSER -h $MyHOST -p$MyPASS -Bse 'show databases')"
+DBS="$(mysql -u $MyUSER -h $MyHOST -p$MyPASS -Bse 'show databases')"
  
 for db in $DBS
 do

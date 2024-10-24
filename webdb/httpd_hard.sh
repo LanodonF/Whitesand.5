@@ -14,20 +14,7 @@ echo ''
 CONFIG='/etc/httpd/conf/httpd.conf'
 
 
-# Updating Apache to latest version
-
-echo -n '> Updating Apache to latest version... '
-
-yum -y update httpd >/dev/null 2>&1 &
-
-SUCCESS=$?
-
-if [ $SUCCESS -eq 0 ]; then
-    echo "[OK]"
-else
-    echo "[ERROR]"
-fi
-
+# Updating httpd was removed, 
 
 # Backing Up Original Configuration
 

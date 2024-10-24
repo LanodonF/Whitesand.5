@@ -8,9 +8,9 @@
 
 DEST="/var/wiener"		# backup destination directory
  
-MyUSER=""    			# MySQL username  ------ FOR SECURITY REASONS THIS USER SHOULD HAVE READ-ONLY ACCESS to all DBs! ----
-MyPASS="<password>"         # MySQL password
-MyHOST="<db-host>"          # DB hostname
+MyUSER="weiner"    			# MySQL username  ------ FOR SECURITY REASONS THIS USER SHOULD HAVE READ-ONLY ACCESS to all DBs! ----
+MyPASS="Password1"         # MySQL password
+MyHOST="localhost"          # DB hostname
 
 MAXAGE=60 								  # max AGE in DAYS for backup-files
 
@@ -64,7 +64,7 @@ SKIPSCHEMES="information_schema performance_schema"
 
  
 # Get all database list first
-DBS="$(/usr/local/bin/mysql -u $MyUSER -h $MyHOST -p$MyPASS -Bse 'show databases')"
+DBS="$(/var/lib/mysql -u $MyUSER -h $MyHOST -p$MyPASS -Bse 'show databases')"
  
 for db in $DBS
 do

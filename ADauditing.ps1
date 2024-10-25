@@ -102,27 +102,18 @@ $groups = Get-ADGroup -filter * | select name
 $groups | foreach-object{Set-ADGroup -Identity $_.name -ManagedBy $null}
 
 
+import-module ActiveDirectory
+$csv = import-csv -Path "C:\Users\Strik\Documents\Goodness-gracious-great-walls-of-fire\csv\admin.csv"
 
-
-
-<#
-#TODO 
-#Disable Do not require kerberos preauthenticaiton
-# Logs what users have Does Not Require Kerberos Preauthentication Enabled
-$requiredUsers | Get-ADUSer -Filter 'DoesNotRequirePreAuth -eq $true' | ForEach-Object{Add-Content -Path "C:\Users\$env:USERNAME\Documents\AddUser.txt" }
-
-
-# Disable the Guest Account
-# This disabled the account locally
-Get-LocalUser Guest | ForEach-Object{Add-Content -Path "C:\Users\$env:USERNAME\Documents\GuestLog.txt"} | Disable-LocalUser 
-# This is supposed to log the data retreived from the statement below to make sure we are selecting the guest account then it will be changed to disabling the guest account in AD
-$guestAccount = Get-ADUser -Filter $_.Name -eq "Guest"
-Write-Output $guestAccount
+Foreach($user in $csv)
+{
+    echo($user.username)
+    echo($user.password)
+    #Set-ADAccountPassword -Identity $user.username -Reset -NewPassword (ConvertTo-SecureString -AsPlainText $user.password -Force)
+}
 
 
 
 
 
-
-
-#>
+# Do NOT delete BLACK TEAM !!!!!!!

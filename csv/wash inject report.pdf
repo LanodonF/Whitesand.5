@@ -1,0 +1,64 @@
+Wazuh inject report:
+
+1.	First, the gnupg and gpg key installed and configured on the workstation device with the correct gpg key. 
+
+curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/wazuh.gpg --import && chmod 644 /usr/share/keyrings/wazuh.gpg
+
+2.	The repository for the wazuh was then added.
+
+3.	The wazuh manager was then added:
+
+echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
+
+4.	The filebeat package was then added:
+
+curl -so /etc/filebeat/filebeat.yml https://packages.wazuh.com/4.9/tpl/wazuh/filebeat/filebeat.yml
+
+5.	The file beat configuration file was then added. 
+
+# Wazuh - Filebeat configuration file
+ output.elasticsearch:
+ hosts: ["10.0.0.1:9200"]
+ protocol: https
+ username: ${username}
+ password: ${password}
+
+
+6.	The host ip address information was configured on the file beat configuration file.
+
+7.	The file beat key store was created to store authentication credentials
+
+8.	Default credentials for admin appied.
+
+echo admin | filebeat keystore add username --stdin --force
+echo admin | filebeat keystore add password --stdin --force
+
+
+9.	Alerts template for wazuh indexer was downloaded.
+
+10.	Wazuh module for file beat was installed
+
+11.	Sever node for wazuh was configured
+
+12.	Certificates were deployed using the following commands:
+
+mkdir /etc/filebeat/certs
+tar -xf ./wazuh-certificates.tar -C /etc/filebeat/certs/ ./$NODE_NAME.pem ./$NODE_NAME-key.pem ./root-ca.pem
+mv -n /etc/filebeat/certs/$NODE_NAME.pem /etc/filebeat/certs/filebeat.pem
+mv -n /etc/filebeat/certs/$NODE_NAME-key.pem /etc/filebeat/certs/filebeat-key.pem
+chmod 500 /etc/filebeat/certs
+chmod 400 /etc/filebeat/certs/*
+chown -R root:root /etc/filebeat/certs
+
+
+unfortunately, the team was unnable to completely configure wazuh.
+
+
+
+
+
+Challenges ecountered:
+
+Slow internet access made downloading files and other internet demanding activities difficult.
+
+Permission access on ubuntu workstation made running commands to configure wazuh difficult and slowed down the implementation of wazuh significantly.

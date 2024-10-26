@@ -19,7 +19,7 @@ CONFIG='/etc/httpd/conf/httpd.conf'
 # Backing Up Original Configuration
 
 echo -n '> Backing Up Original Configuration... '
-cp $CONFIG "$CONFIG.bk" &
+cp $CONFIG "$CONFIG.bak" &
 
 SUCCESS=$?
 
